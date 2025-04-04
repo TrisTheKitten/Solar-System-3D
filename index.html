@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive 3D Solar System Structure</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-black text-white">
+
+    <div id="nav-controls">
+        <select id="planet-nav-select" class="nav-select">
+            <option value="">Select Planet...</option>
+        </select>
+        <select id="moon-nav-select" class="nav-select">
+            <option value="">Select Moon...</option>
+        </select>
+    </div>
+
+    <div id="info" class="rounded-lg">Interactive 3D Solar System<br/>(Drag, Scroll, Click bodies/labels for info)</div>
+    <div id="container"></div>
+    <div id="labels"></div>
+
+    <div id="controls-container">
+        <div class="slider-control">
+            <label for="size-slider">Body Size:</label>
+            <input type="range" id="size-slider" min="0.2" max="3.0" step="0.1" value="1.2">
+            <span id="size-value">1.2x</span>
+        </div>
+        <div class="slider-control">
+            <label for="speed-slider">Anim. Speed:</label>
+            <input type="range" id="speed-slider" min="0.1" max="5.0" step="0.1" value="0.2">
+            <span id="speed-value">0.2x</span>
+        </div>
+        <button id="unit-toggle" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-1 px-3 rounded-lg shadow-md transition duration-150 ease-in-out text-sm mt-2">Show Light-Years</button>
+    </div>
+
+    <div id="info-card" style="display: none;">
+        <button id="info-close">X</button>
+        <div id="structure-diagram"></div>
+        <div id="info-card-content">
+            <div id="info-card-text">
+                <h2 id="info-title"></h2>
+                <p id="info-size"></p>
+                <p id="info-description"></p>
+                <div id="info-layers">
+                    <h3>Layers (Outermost to Innermost):</h3>
+                </div>
+                <p id="info-structure-note" class="text-sm italic mt-4 text-gray-400">Internal structure shown is a simplified representation.</p>
+            </div>
+            <button id="compare-size-btn" class="mt-4 bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-150 ease-in-out self-center">Compare Size</button>
+        </div>
+    </div>
+
+    <div id="comparison-panel">
+        <button id="close-comparison-btn">X</button>
+        <h3>Size Comparison</h3>
+        <div class="comparison-controls">
+            <span id="compare-body1-name" class="font-bold">Body 1</span>
+            <span>vs.</span>
+            <select id="compare-select"></select>
+        </div>
+        <div id="comparison-display">
+            <div class="comparison-item" id="compare-item-1">
+                <svg viewBox="-1.1 -1.1 2.2 2.2" preserveAspectRatio="xMidYMid meet"><circle cx="0" cy="0" r="1" fill="#888"></circle></svg>
+                <p class="name">Body 1</p>
+                <p class="diameter">Diameter</p>
+            </div>
+            <div class="comparison-item" id="compare-item-2">
+                <svg viewBox="-1.1 -1.1 2.2 2.2" preserveAspectRatio="xMidYMid meet"><circle cx="0" cy="0" r="1" fill="#888"></circle></svg>
+                <p class="name">Body 2</p>
+                <p class="diameter">Diameter</p>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>
