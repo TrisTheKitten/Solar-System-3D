@@ -1,4 +1,3 @@
-// Import THREE.js modules
 import * as THREE from 'https://unpkg.com/three@0.163.0/build/three.module.js';
 import { OrbitControls } from 'https://unpkg.com/three@0.163.0/examples/jsm/controls/OrbitControls.js';
 import { CSS2DRenderer, CSS2DObject } from 'https://unpkg.com/three@0.163.0/examples/jsm/renderers/CSS2DRenderer.js';
@@ -529,6 +528,5 @@ function animate() {
     css2DRenderer.render(scene, camera);
 }
 
-// Initialize the application
 init();
 animate();

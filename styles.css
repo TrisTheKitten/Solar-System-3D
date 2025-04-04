@@ -323,7 +323,6 @@ canvas { display: block; }
     box-shadow: 0 0 0 2px rgba(100,100,255,0.3);
 }
 
-/* Firefox specific fixes */
 @-moz-document url-prefix() {
     .nav-select, #compare-select {
         text-indent: 0;
