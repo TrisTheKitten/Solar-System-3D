@@ -1,7 +1,3 @@
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.163.0/build/three.module.js';
-import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.163.0/examples/jsm/controls/OrbitControls.js';
-import { CSS2DRenderer, CSS2DObject } from 'https://cdn.jsdelivr.net/npm/three@0.163.0/examples/jsm/renderers/CSS2DRenderer.js';
-
 const sunData = {
     name: 'Sun', type: 'star', originalRadius: 3, diameterKM: 1392700, color: 0xffdd88,
     wikiLink: 'https://en.wikipedia.org/wiki/Sun',
@@ -102,7 +98,7 @@ function init() {
     webglRenderer.setPixelRatio(window.devicePixelRatio);
     document.getElementById('container').appendChild(webglRenderer.domElement);
 
-    css2DRenderer = new CSS2DRenderer();
+    css2DRenderer = new THREE.CSS2DRenderer();
     css2DRenderer.setSize(window.innerWidth, window.innerHeight);
     css2DRenderer.domElement.style.position = 'absolute';
     css2DRenderer.domElement.style.top = '0px';
@@ -169,7 +165,7 @@ function createSolarSystem() {
     sun.add(sunGlow);
     scene.add(sun);
 
-    const sunDiv = document.createElement('div'); sunDiv.className = 'label'; sunDiv.textContent = 'Sun'; sunDiv.style.pointerEvents = 'auto'; sunDiv.addEventListener('click', (event) => { event.stopPropagation(); showInfoCard(sunData); }); sunLabelObject = new CSS2DObject(sunDiv); sun.add(sunLabelObject);
+    const sunDiv = document.createElement('div'); sunDiv.className = 'label'; sunDiv.textContent = 'Sun'; sunDiv.style.pointerEvents = 'auto'; sunDiv.addEventListener('click', (event) => { event.stopPropagation(); showInfoCard(sunData); }); sunLabelObject = new THREE.CSS2DObject(sunDiv); sun.add(sunLabelObject);
 
     const orbitMaterial = new THREE.LineBasicMaterial({ color: 0xaaaaaa, opacity: 0.4, transparent: true });
 
@@ -187,12 +183,12 @@ function createSolarSystem() {
         planet.userData = { ...data, type: 'planet' };
         clickableObjects.push(planet);
 
-        const planetDiv = document.createElement('div'); planetDiv.className = 'label'; planetDiv.textContent = `${data.name}`; planetDiv.style.pointerEvents = 'auto'; planetDiv.addEventListener('click', (event) => { event.stopPropagation(); showInfoCard(planet.userData); }); const planetLabel = new CSS2DObject(planetDiv); planet.add(planetLabel);
+        const planetDiv = document.createElement('div'); planetDiv.className = 'label'; planetDiv.textContent = `${data.name}`; planetDiv.style.pointerEvents = 'auto'; planetDiv.addEventListener('click', (event) => { event.stopPropagation(); showInfoCard(planet.userData); }); const planetLabel = new THREE.CSS2DObject(planetDiv); planet.add(planetLabel);
         planets.push({ mesh: planet, pivot: pivot, speed: data.speed, label: planetLabel, originalRadius: data.radius });
 
         const orbitCurve = new THREE.EllipseCurve(0, 0, data.distance, data.distance, 0, 2 * Math.PI, false, 0); const points = orbitCurve.getPoints(100); const orbitGeometry = new THREE.BufferGeometry().setFromPoints(points); const orbitLine = new THREE.Line(orbitGeometry, orbitMaterial); orbitLine.rotation.x = Math.PI / 2; scene.add(orbitLine); orbits.push(orbitLine);
 
-        const orbitInfoDiv = document.createElement('div'); orbitInfoDiv.className = 'label orbit-label'; orbitInfoDiv.textContent = `~${getFormattedDistance(data.realDistanceKM)} / ${formatOrbitalPeriod(data.orbitalPeriodDays)}`; orbitInfoDiv.style.pointerEvents = 'none'; const orbitInfoLabel = new CSS2DObject(orbitInfoDiv); orbitInfoLabel.position.set(data.distance, 0, 0); orbitInfoLabel.userData = { distanceKM: data.realDistanceKM, periodDays: data.orbitalPeriodDays }; scene.add(orbitInfoLabel); orbitInfoLabels.push(orbitInfoLabel);
+        const orbitInfoDiv = document.createElement('div'); orbitInfoDiv.className = 'label orbit-label'; orbitInfoDiv.textContent = `~${getFormattedDistance(data.realDistanceKM)} / ${formatOrbitalPeriod(data.orbitalPeriodDays)}`; orbitInfoDiv.style.pointerEvents = 'none'; const orbitInfoLabel = new THREE.CSS2DObject(orbitInfoDiv); orbitInfoLabel.position.set(data.distance, 0, 0); orbitInfoLabel.userData = { distanceKM: data.realDistanceKM, periodDays: data.orbitalPeriodDays }; scene.add(orbitInfoLabel); orbitInfoLabels.push(orbitInfoLabel);
 
         if (data.hasRing) {
             const ringGeometry = new THREE.RingGeometry(data.radius * 1.2, data.radius * 1.8, 64); const pos = ringGeometry.attributes.position; const v3 = new THREE.Vector3(); for (let i = 0; i < pos.count; i++){ v3.fromBufferAttribute(pos, i); ringGeometry.attributes.position.setXYZ(i, v3.x, 0 , v3.y); } ringGeometry.attributes.position.needsUpdate = true; const ringMaterial = new THREE.MeshStandardMaterial({ color: 0xaaa666, side: THREE.DoubleSide, opacity: 0.6, transparent: true, depthWrite: false, roughness: 0.8, metalness: 0.1 }); const ring = new THREE.Mesh(ringGeometry, ringMaterial); ring.rotation.x = -Math.PI * 0.4; ring.rotation.y = Math.PI * 0.1; planet.add(ring);
@@ -208,7 +204,7 @@ function createSolarSystem() {
             const moonPivot = new THREE.Object3D(); planet.add(moonPivot); moonPivot.add(moon); moon.position.x = moonData.distance;
             moon.userData = { ...moonData, type: 'moon', parentPlanet: data.name };
             clickableObjects.push(moon);
-            const moonDiv = document.createElement('div'); moonDiv.className = 'label moon-label'; moonDiv.textContent = moonData.name; moonDiv.style.pointerEvents = 'auto'; moonDiv.addEventListener('click', (event) => { event.stopPropagation(); showInfoCard(moon.userData); }); const moonLabel = new CSS2DObject(moonDiv); moon.add(moonLabel);
+            const moonDiv = document.createElement('div'); moonDiv.className = 'label moon-label'; moonDiv.textContent = moonData.name; moonDiv.style.pointerEvents = 'auto'; moonDiv.addEventListener('click', (event) => { event.stopPropagation(); showInfoCard(moon.userData); }); const moonLabel = new THREE.CSS2DObject(moonDiv); moon.add(moonLabel);
             moons.push({ mesh: moon, pivot: moonPivot, speed: moonData.speed, label: moonLabel, originalRadius: moonData.radius, parentPlanetMesh: planet });
         });
     });
@@ -528,4 +524,5 @@ function animate() {
     css2DRenderer.render(scene, camera);
 }
 
-window.onload = () => { init(); animate(); };
+init();
+animate();
