@@ -1,3 +1,8 @@
+// Import THREE.js modules
+import * as THREE from 'https://unpkg.com/three@0.163.0/build/three.module.js';
+import { OrbitControls } from 'https://unpkg.com/three@0.163.0/examples/jsm/controls/OrbitControls.js';
+import { CSS2DRenderer, CSS2DObject } from 'https://unpkg.com/three@0.163.0/examples/jsm/renderers/CSS2DRenderer.js';
+
 const sunData = {
     name: 'Sun', type: 'star', originalRadius: 3, diameterKM: 1392700, color: 0xffdd88,
     wikiLink: 'https://en.wikipedia.org/wiki/Sun',
@@ -305,11 +310,11 @@ function showInfoCard(data) {
         layersListContainer.style.display = 'none';
         structureNote.style.display = 'none';
     }
-    infoCard.style.display = 'flex';
+    infoCard.classList.add('visible');
 }
 
 function hideInfoCard() {
-    document.getElementById('info-card').style.display = 'none';
+    document.getElementById('info-card').classList.remove('visible');
     currentComparisonBody = null;
 }
 
@@ -345,12 +350,12 @@ function showComparisonPanel() {
     compareSelect.value = defaultCompare ? defaultCompare.name : '';
 
     compareBody1Name.textContent = currentComparisonBody.name;
-    comparisonPanel.style.display = 'flex';
+    comparisonPanel.classList.add('visible');
     updateComparisonDisplay();
 }
 
 function hideComparisonPanel() {
-    comparisonPanel.style.display = 'none';
+    comparisonPanel.classList.remove('visible');
 }
 
 function updateComparisonDisplay() {
@@ -484,7 +489,7 @@ function onDocumentMouseDown(event) {
             let clickedObject = intersects[0].object;
             while (clickedObject && !(clickedObject.userData && clickedObject.userData.type)) { clickedObject = clickedObject.parent; }
             if (clickedObject && clickedObject.userData && (clickedObject.userData.type === 'planet' || clickedObject.userData.type === 'moon' || clickedObject.userData.type === 'star')) {
-                if (comparisonPanel.style.display === 'flex') {
+                if (comparisonPanel.classList.contains('visible')) {
                     hideComparisonPanel();
                 }
                 showInfoCard(clickedObject.userData);
@@ -524,5 +529,6 @@ function animate() {
     css2DRenderer.render(scene, camera);
 }
 
+// Initialize the application
 init();
 animate();

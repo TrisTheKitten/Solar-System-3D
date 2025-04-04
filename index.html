@@ -10,12 +10,18 @@
 <body class="bg-black text-white">
 
     <div id="nav-controls">
-        <select id="planet-nav-select" class="nav-select">
-            <option value="">Select Planet...</option>
-        </select>
-        <select id="moon-nav-select" class="nav-select">
-            <option value="">Select Moon...</option>
-        </select>
+        <div class="nav-control-item">
+            <label for="planet-nav-select" class="nav-label">Planet:</label>
+            <select id="planet-nav-select" class="nav-select" aria-label="Navigate to planet">
+                <option value="">Select Planet...</option>
+            </select>
+        </div>
+        <div class="nav-control-item">
+            <label for="moon-nav-select" class="nav-label">Moon:</label>
+            <select id="moon-nav-select" class="nav-select" aria-label="Navigate to moon">
+                <option value="">Select Moon...</option>
+            </select>
+        </div>
     </div>
 
     <div id="info" class="rounded-lg">Interactive 3D Solar System<br/>(Drag, Scroll, Click bodies/labels for info)</div>
@@ -75,9 +81,7 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/three@0.163.0/build/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.163.0/examples/jsm/controls/OrbitControls.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.163.0/examples/jsm/renderers/CSS2DRenderer.js"></script>
-    <script src="script.js"></script>
+    <!-- Load Three.js library as a module -->
+    <script type="module" src="script.js"></script>
 </body>
 </html>
